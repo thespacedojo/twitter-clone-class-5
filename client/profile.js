@@ -12,6 +12,6 @@ Template.profile.helpers({
     return _(Meteor.user().profile.followingIds).contains(this.user._id);
   },
   tweets: function() {
-    return Tweets.find({userId: this.user._id}, {sort: {tweetedAt: -1}});
+    return Tweets.find({userId: this.user._id, tweetedAt: {$lt: Session.get('lastSeenTweets')}}, {sort: {tweetedAt: -1}});
   }
 });

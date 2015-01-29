@@ -1,0 +1,13 @@
+<template name="tweets">
+  {{#if newTweets.count}}
+    <li class="list-group-item tweet">
+      <p>
+        There are {{newTweets.count}} new tweets!
+        <a class="show-new-tweets">Show</a>
+      </p>
+    </li>
+  {{/if}}
+  {{#each tweets}}
+    {{> tweet}}
+  {{/each}}
+</template>
