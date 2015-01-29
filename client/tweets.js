@@ -9,6 +9,22 @@ Template.tweets.helpers({
         $gt: Session.get('lastSeenTweets')
       }
     });
+  },
+  tweets: function() {
+    if (this.user) {
+      return Tweets.find({
+        userId: this.user._id,
+        tweetedAt: {
+          $lt: Session.get('lastSeenTweets')
+        }
+      });
+    } else {
+      return Tweets.find({
+        tweetedAt: {
+          $lt: Session.get('lastSeenTweets')
+        }
+      });
+    }
   }
 });
 
