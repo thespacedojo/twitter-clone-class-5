@@ -13,6 +13,7 @@ deps@1.0.6
 ejson@1.0.5
 fastclick@1.0.2
 follower-livedata@1.0.3
+fortawesome:fontawesome@4.2.0_2
 geojson-utils@1.0.2
 html-tools@1.0.3
 htmljs@1.0.3
@@ -50,6 +51,7 @@ routepolicy@1.0.4
 session@1.0.5
 spacebars@1.0.5
 spacebars-compiler@1.0.4
+stylus@1.0.6
 templating@1.0.11
 tracker@1.0.5
 ui@1.0.5
