@@ -11,3 +11,5 @@ iron:router
 mizzao:bootstrap-3
 stylus
 fortawesome:fontawesome
+joshowens:accounts-entry
+accounts-password
