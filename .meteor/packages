@@ -15,3 +15,5 @@ matb33:collection-hooks
 dburles:collection-helpers
 momentjs:moment
 mizzao:autocomplete
+joshowens:simple-form
+pfafman:coffee-alerts
