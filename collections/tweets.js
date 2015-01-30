@@ -14,7 +14,7 @@ Tweets.helpers({
       return this.user().profile.name;
   },
   username: function() {
-    if (this.user)
+    if (this.user())
       return this.user().username;
   }
 });

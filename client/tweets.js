@@ -17,12 +17,16 @@ Template.tweets.helpers({
         tweetedAt: {
           $lt: Session.get('lastSeenTweets')
         }
+      }, {
+        sort: {tweetedAt: -1}
       });
     } else {
       return Tweets.find({
         tweetedAt: {
           $lt: Session.get('lastSeenTweets')
         }
+      }, {
+        sort: {tweetedAt: -1}
       });
     }
   }
