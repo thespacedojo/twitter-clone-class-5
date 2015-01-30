@@ -9,6 +9,9 @@ Template.tweetStream.events({
 });
 
 Template.tweetStream.helpers({
+  user: function() {
+    return Meteor.user();
+  },
   settings: function() {
     return {
       position: "bottom",
