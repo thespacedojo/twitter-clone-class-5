@@ -52,6 +52,13 @@ Meteor.publish('tweets', function() {
   return cursors;
 });
 
+Meteor.publish('notifications', function() {
+  tweetsCursor = Tweets.find({mentionIds: {$in: [this.userId]}});
+  userIds = _.pluck(tweetsCursor.fetch(), "userId");
+  usersCursor = Users.find({_id: {$in: userIds}}, {fields: {username: 1, "profile.name": 1}});
+  return [tweetsCursor, usersCursor];
+});
+
 Meteor.publish('profile', function(username) {
   return Meteor.users.find({username: username}, {fields: {emails: 0, services: 0}});
 });

@@ -15,7 +15,7 @@ processTweet = function(text) {
     }
     return ids;
   }
-}
+};
 
 Tweets.before.insert(function(userId, doc) {
   doc.tweetedAt = new Date();
