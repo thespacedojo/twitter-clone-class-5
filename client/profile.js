@@ -9,6 +9,7 @@ Template.profile.events({
 
 Template.profile.helpers({
   following: function() {
-    return _(Meteor.user().profile.followingIds).contains(this.user._id);
+    if (this.user)
+      return _(Meteor.user().profile.followingIds).contains(this.user._id);
   }
 });

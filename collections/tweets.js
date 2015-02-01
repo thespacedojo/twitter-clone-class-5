@@ -1,6 +1,6 @@
 Tweets = new Mongo.Collection('tweets');
 
-processTweet = function(text) {
+var processTweet = function(text) {
   if (Meteor.isServer) {
     var ids = [];
     if (_.contains(text, "@")) {
@@ -17,7 +17,7 @@ processTweet = function(text) {
   }
 };
 
-linkTweet = function(text) {
+var linkTweet = function(text) {
   if (Meteor.isServer) {
     if (_.contains(text, '@')) {
       mentions = _.select(text.split(" "), function(string) { return _.contains(string, "@");});
