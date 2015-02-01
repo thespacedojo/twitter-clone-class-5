@@ -4,9 +4,12 @@ Meteor.publish('tweets', function() {
   var cursors = [];
   var ids = [];
   var self = this;
-  ids.push(user.profile.followingIds);
-  ids.push(this.userId);
-  followingIds = _.flatten(ids);
+  if (this.userId) {
+    ids.push(user.profile.followingIds);
+    ids.push(this.userId);
+  }
+  var followingIds = _.flatten(ids);
+
   cursors.push(Tweets.find({userId: {$in: followingIds}}));
   cursors.push(Users.find({
     _id: {$in: followingIds}
@@ -15,29 +18,46 @@ Meteor.publish('tweets', function() {
   }));
 
   userCursor.observeChanges({
-    changed: function(id, user) {
-      ids = user.profile.followingIds;
-      ids.push(self.userId);
-      console.log(followingIds);
-      flatIds = _.flatten(ids);
+    changed: function(id, fields) {
+      var flatIds = fields.profile.followingIds;
+      flatIds.push(self.userId);
+
       addedFollowingIds = _.difference(flatIds, followingIds);
       removedFollowingIds = _.difference(followingIds, flatIds);
-      followingIds = user.profile.followingIds;
-      // console.log(removedFollowingIds);
+
+      // Update the followingIds for the next run through this
+      followingIds = fields.profile.followingIds;
+      followingIds.push(self.userId);
+
       if (addedFollowingIds) {
-        users = Users.find({_id: {$in: addedFollowingIds}}, {fields: {username: 1, "profile.name": 1}});
+        users = Users.find({
+          _id: {$in: addedFollowingIds}
+        }, {
+          fields: {username: 1, "profile.name": 1}
+        });
+
+        console.log(users.count());
+        
         _.each(users.fetch(), function(user) {
-          console.log(user);
           self.added('users', user._id, user);
+          console.log('added - user', user);
+
           tweets = Tweets.find({userId: user._id});
+          console.log('Tweets found: ', tweets.count());
+
           tweets.forEach(function(tweet) {
-            console.log(tweet);
             self.added('tweets', tweet._id, tweet);
+            console.log('added - tweet', tweet);
           });
         });
       }
       if (removedFollowingIds) {
-        users = Users.find({_id: {$in: addedFollowingIds}}, {fields: {username: 1, "profile.name": 1}});
+        users = Users.find({
+          _id: {$in: removedFollowingIds}
+        }, {
+          fields: {username: 1, "profile.name": 1}
+        });
+
         _.each(users.fetch(), function(user) {
           self.removed('users', user._id);
           tweets = Tweets.find({userId: user._id});

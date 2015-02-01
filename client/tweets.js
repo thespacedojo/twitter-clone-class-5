@@ -1,4 +1,4 @@
-Template.tweets.rendered = function() {
+Template.tweets.created = function() {
   Session.set('lastSeenTweets', new Date());
 };
 
@@ -10,25 +10,24 @@ Template.tweets.helpers({
       }
     });
   },
+  profileTweets: function() {
+    return Tweets.find({
+      userId: this.user._id,
+      tweetedAt: {
+        $lt: Session.get('lastSeenTweets')
+      }
+    }, {
+      sort: {tweetedAt: -1}
+    });
+  },
   tweets: function() {
-    if (this.user) {
-      return Tweets.find({
-        userId: this.user._id,
-        tweetedAt: {
-          $lt: Session.get('lastSeenTweets')
-        }
-      }, {
-        sort: {tweetedAt: -1}
-      });
-    } else {
-      return Tweets.find({
-        tweetedAt: {
-          $lt: Session.get('lastSeenTweets')
-        }
-      }, {
-        sort: {tweetedAt: -1}
-      });
-    }
+    return Tweets.find({
+      tweetedAt: {
+        $lt: Session.get('lastSeenTweets')
+      }
+    }, {
+      sort: {tweetedAt: -1}
+    });
   }
 });
 
